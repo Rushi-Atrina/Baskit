@@ -17,7 +17,8 @@ class GoogleAuthConfig {
   const GoogleAuthConfig._();
 
   /// The "Web application" OAuth client's ID. Required for Android.
-  static const String? webClientId = null;
+  static const String? webClientId =
+      '316041812030-d2gqo8j0d4u3fcp562e90ovvorgcofed.apps.googleusercontent.com';
 
   /// The "iOS" OAuth client's ID. Required for iOS.
   static const String? iosClientId = null;
