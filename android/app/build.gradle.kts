@@ -7,8 +7,14 @@ plugins {
 
 android {
     namespace = "com.example.baskit"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    // androidx.core:core-ktx 1.18.0 (pulled in transitively) requires
+    // compileSdk 36; Flutter 3.29.2's default (flutter.compileSdkVersion)
+    // is only 35, so it's overridden explicitly here.
+    compileSdk = 36
+    // connectivity_plus/google_sign_in_android/path_provider_android/
+    // sqflite_android/sqlite3_flutter_libs all require this NDK version;
+    // Flutter's default (flutter.ndkVersion) is older.
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -24,7 +30,9 @@ android {
         applicationId = "com.example.baskit"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        // androidx.core:core-ktx 1.18.0 requires minSdk 23; Flutter's
+        // default (flutter.minSdkVersion) is 21.
+        minSdk = 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
