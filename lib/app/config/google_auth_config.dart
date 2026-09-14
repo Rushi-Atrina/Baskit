@@ -1,16 +1,24 @@
-/// Fill these in once the Google Cloud OAuth clients exist — see
-/// docs/plan.md "Open Items" / the Google Sign-In setup steps you were given.
+/// Fill these in once the Google Cloud OAuth clients exist.
 ///
-/// - Android needs NO client ID here: it's identified by package name
-///   (`com.example.baskit`) + SHA-1 fingerprint registered as an "Android"
-///   OAuth client in Google Cloud Console.
-/// - iOS REQUIRES its OAuth client's "iOS client ID" below (bundle ID
-///   `com.example.baskit` registered as an "iOS" OAuth client).
+/// You need THREE OAuth 2.0 Client IDs from the same Google Cloud project
+/// (APIs & Services -> Credentials -> Create Credentials -> OAuth client ID):
+///
+/// 1. **Android** client — package name `com.example.baskit` + your
+///    keystore's SHA-1. Used only for Google to verify the app; its ID is
+///    never referenced in code.
+/// 2. **iOS** client — bundle ID `com.example.baskit`. Its Client ID goes
+///    in [iosClientId] below.
+/// 3. **Web application** client — no redirect URI needed for this use
+///    case, just create it. Its Client ID goes in [webClientId] below AND
+///    is required on Android too (passed as `serverClientId`) — Android's
+///    Credential Manager sign-in doesn't work from the Android client
+///    registration alone.
 class GoogleAuthConfig {
   const GoogleAuthConfig._();
 
-  /// iOS OAuth client ID, e.g. "1234567890-abc.apps.googleusercontent.com".
-  /// Leave null until you have it — sign-in will simply fail on iOS with a
-  /// clear GoogleSignInException until it's set.
+  /// The "Web application" OAuth client's ID. Required for Android.
+  static const String? webClientId = null;
+
+  /// The "iOS" OAuth client's ID. Required for iOS.
   static const String? iosClientId = null;
 }

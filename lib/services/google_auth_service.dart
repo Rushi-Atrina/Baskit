@@ -16,6 +16,9 @@ class GoogleAuthService {
     if (_initialized) return;
     await _googleSignIn.initialize(
       clientId: Platform.isIOS ? GoogleAuthConfig.iosClientId : null,
+      // Required on Android (Credential Manager sign-in needs the Web
+      // client's ID, not just the Android client's SHA-1 registration).
+      serverClientId: GoogleAuthConfig.webClientId,
     );
     _initialized = true;
   }
