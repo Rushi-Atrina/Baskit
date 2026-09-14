@@ -4,6 +4,8 @@ import '../../modules/auth/auth_binding.dart';
 import '../../modules/auth/auth_view.dart';
 import '../../modules/splash/splash_binding.dart';
 import '../../modules/splash/splash_view.dart';
+import '../../modules/sync/sync_binding.dart';
+import '../../modules/sync/sync_view.dart';
 import '../../shared/widgets/placeholder_view.dart';
 import 'app_routes.dart';
 
@@ -16,8 +18,9 @@ class AppPages {
     GetPage(name: Routes.splash, page: () => const SplashView(), binding: SplashBinding()),
     GetPage(name: Routes.auth, page: () => const AuthView(), binding: AuthBinding()),
 
+    GetPage(name: Routes.sync, page: () => const SyncView(), binding: SyncBinding()),
+
     // Placeholders — replaced as each phase in docs/plan.md lands.
-    GetPage(name: Routes.sync, page: () => const PlaceholderView(title: 'Sync')),
     GetPage(name: Routes.dashboard, page: () => const PlaceholderView(title: 'Dashboard')),
     GetPage(name: Routes.categories, page: () => const PlaceholderView(title: 'Categories')),
     GetPage(name: Routes.products, page: () => const PlaceholderView(title: 'Products')),

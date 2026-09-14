@@ -9,6 +9,7 @@ import '../../data/repositories/category_repository.dart';
 import '../../data/repositories/favourite_repository.dart';
 import '../../data/repositories/product_repository.dart';
 import '../../data/repositories/sync_repository.dart';
+import '../../services/connectivity_service.dart';
 import '../../services/google_auth_service.dart';
 
 /// App-wide singletons, registered once at startup (GetMaterialApp's
@@ -21,12 +22,16 @@ class InitialBinding extends Bindings {
     Get.put<ApiClient>(ApiClient(), permanent: true);
     Get.put<DummyJsonApi>(DummyJsonApi(Get.find()), permanent: true);
     Get.put<GoogleAuthService>(GoogleAuthService(), permanent: true);
+    Get.put<ConnectivityService>(ConnectivityService(), permanent: true);
 
     Get.put<AuthRepository>(
       AuthRepository(Get.find(), Get.find()),
       permanent: true,
     );
-    Get.put<SyncRepository>(SyncRepository(Get.find()), permanent: true);
+    Get.put<SyncRepository>(
+      SyncRepository(Get.find(), Get.find(), Get.find()),
+      permanent: true,
+    );
     Get.put<CategoryRepository>(CategoryRepository(Get.find()), permanent: true);
     Get.put<ProductRepository>(ProductRepository(Get.find()), permanent: true);
     Get.put<FavouriteRepository>(FavouriteRepository(Get.find()), permanent: true);

@@ -19,11 +19,22 @@ class DummyJsonApi {
     });
   }
 
-  Future<List<ProductDto>> getProducts({int limit = 200}) {
+  /// [onProgress] reports 0..100 based on bytes received (requirements.md's
+  /// "Downloading Products... 45%"); it's skipped if the server omits
+  /// Content-Length.
+  Future<List<ProductDto>> getProducts({
+    int limit = 200,
+    void Function(double percent)? onProgress,
+  }) {
     return _client.guard((dio) async {
       final res = await dio.get<Map<String, dynamic>>(
         '/products',
         queryParameters: {'limit': limit},
+        onReceiveProgress: (received, total) {
+          if (total > 0 && onProgress != null) {
+            onProgress((received / total) * 100);
+          }
+        },
       );
       final products = res.data!['products'] as List<dynamic>;
       return products
