@@ -15,6 +15,9 @@ class ProductDao extends DatabaseAccessor<AppDatabase>
         .watch();
   }
 
+  /// All products, unfiltered — used for Dashboard's "Total Products" count.
+  Stream<List<Product>> watchAll() => select(products).watch();
+
   Stream<Product?> watchById(int id) {
     return (select(products)..where((t) => t.id.equals(id)))
         .watchSingleOrNull();
@@ -31,4 +34,6 @@ class ProductDao extends DatabaseAccessor<AppDatabase>
       await batch((b) => b.insertAll(products, entries));
     });
   }
+
+  Future<void> clear() => delete(products).go();
 }

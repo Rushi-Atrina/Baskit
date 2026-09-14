@@ -12,6 +12,8 @@ class ProductRepository {
   Stream<List<Product>> watchByCategory(String categorySlug) =>
       _db.productDao.watchByCategory(categorySlug);
 
+  Stream<List<Product>> watchAll() => _db.productDao.watchAll();
+
   Stream<Product?> watchById(int id) => _db.productDao.watchById(id);
 
   Future<int> count() => _db.productDao.count();

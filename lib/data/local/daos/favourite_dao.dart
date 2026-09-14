@@ -52,4 +52,6 @@ class FavouriteDao extends DatabaseAccessor<AppDatabase>
       await add(productId);
     }
   }
+
+  Future<void> clear() => delete(favourites).go();
 }

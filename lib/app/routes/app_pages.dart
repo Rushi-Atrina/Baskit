@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../../modules/auth/auth_binding.dart';
 import '../../modules/auth/auth_view.dart';
+import '../../modules/dashboard/dashboard_binding.dart';
+import '../../modules/dashboard/dashboard_view.dart';
 import '../../modules/splash/splash_binding.dart';
 import '../../modules/splash/splash_view.dart';
 import '../../modules/sync/sync_binding.dart';
@@ -19,9 +21,13 @@ class AppPages {
     GetPage(name: Routes.auth, page: () => const AuthView(), binding: AuthBinding()),
 
     GetPage(name: Routes.sync, page: () => const SyncView(), binding: SyncBinding()),
+    GetPage(
+      name: Routes.dashboard,
+      page: () => const DashboardView(),
+      binding: DashboardBinding(),
+    ),
 
     // Placeholders — replaced as each phase in docs/plan.md lands.
-    GetPage(name: Routes.dashboard, page: () => const PlaceholderView(title: 'Dashboard')),
     GetPage(name: Routes.categories, page: () => const PlaceholderView(title: 'Categories')),
     GetPage(name: Routes.products, page: () => const PlaceholderView(title: 'Products')),
     GetPage(

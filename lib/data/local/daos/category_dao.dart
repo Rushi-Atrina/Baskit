@@ -26,4 +26,6 @@ class CategoryDao extends DatabaseAccessor<AppDatabase>
       await batch((b) => b.insertAll(categories, entries));
     });
   }
+
+  Future<void> clear() => delete(categories).go();
 }

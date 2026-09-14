@@ -35,4 +35,6 @@ class SyncMetaDao extends DatabaseAccessor<AppDatabase>
       ),
     );
   }
+
+  Future<void> clear() => delete(syncMeta).go();
 }

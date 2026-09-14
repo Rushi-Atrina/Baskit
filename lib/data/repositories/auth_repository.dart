@@ -29,8 +29,24 @@ class AuthRepository {
     );
   }
 
+  /// Logout: clears only the session. Catalog/Cart/Favourites stay cached
+  /// so the next login skips straight past Sync.
   Future<void> signOut() async {
     await _googleAuth.signOut();
     await _db.userDao.clear();
+  }
+
+  /// "Logout and Delete Account": clears the session AND wipes every local
+  /// table, forcing a full re-sync on next login.
+  Future<void> signOutAndDeleteAccount() async {
+    await _googleAuth.signOut();
+    await _db.transaction(() async {
+      await _db.userDao.clear();
+      await _db.categoryDao.clear();
+      await _db.productDao.clear();
+      await _db.favouriteDao.clear();
+      await _db.cartDao.clear();
+      await _db.syncMetaDao.clear();
+    });
   }
 }
