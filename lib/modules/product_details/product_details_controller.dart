@@ -64,6 +64,9 @@ class ProductDetailsController extends GetxController {
 
   void addToCart() => _cartRepository.addOrIncrement(productId);
 
+  void decrementCart() =>
+      _cartRepository.updateQuantity(productId, cartQuantity.value - 1);
+
   @override
   void onClose() {
     _productSub?.cancel();

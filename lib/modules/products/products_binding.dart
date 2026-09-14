@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../../data/repositories/cart_repository.dart';
+import '../../data/repositories/favourite_repository.dart';
 import '../../data/repositories/product_repository.dart';
 import '../../data/repositories/sync_repository.dart';
 import 'category_arg.dart';
@@ -13,6 +15,8 @@ class ProductsBinding extends Bindings {
       () => ProductsController(
         Get.find<ProductRepository>(),
         Get.find<SyncRepository>(),
+        Get.find<FavouriteRepository>(),
+        Get.find<CartRepository>(),
         category,
       ),
     );

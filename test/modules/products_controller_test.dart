@@ -1,6 +1,8 @@
 import 'package:baskit/data/local/database.dart';
 import 'package:baskit/data/remote/api_client.dart';
 import 'package:baskit/data/remote/dummyjson_api.dart';
+import 'package:baskit/data/repositories/cart_repository.dart';
+import 'package:baskit/data/repositories/favourite_repository.dart';
 import 'package:baskit/data/repositories/product_repository.dart';
 import 'package:baskit/data/repositories/sync_repository.dart';
 import 'package:baskit/modules/products/category_arg.dart';
@@ -46,6 +48,8 @@ void main() {
     controller = ProductsController(
       ProductRepository(db),
       SyncRepository(db, DummyJsonApi(ApiClient()), ConnectivityService()),
+      FavouriteRepository(db),
+      CartRepository(db),
       const CategoryArg(slug: 'beauty', name: 'Beauty'),
     );
     controller.onInit();

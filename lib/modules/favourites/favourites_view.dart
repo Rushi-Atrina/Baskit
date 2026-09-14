@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../app/theme/app_theme.dart';
 import '../../shared/widgets/product_card.dart';
 import 'favourites_controller.dart';
 
@@ -14,10 +15,26 @@ class FavouritesView extends GetView<FavouritesController> {
       body: Obx(() {
         final products = controller.products;
         if (products.isEmpty) {
-          return const Center(child: Text('No favourites yet.'));
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.favorite_border_rounded,
+                  size: 48,
+                  color: AppColors.textSecondary,
+                ),
+                const SizedBox(height: 14),
+                const Text(
+                  'No favourites yet.',
+                  style: TextStyle(color: AppColors.textSecondary),
+                ),
+              ],
+            ),
+          );
         }
         return GridView.builder(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 12,
@@ -34,8 +51,8 @@ class FavouritesView extends GetView<FavouritesController> {
                   onTap: () => controller.openDetails(product),
                 ),
                 Positioned(
-                  top: 4,
-                  right: 4,
+                  top: 8,
+                  right: 8,
                   child: _RemoveButton(onTap: () => controller.remove(product.id)),
                 ),
               ],
@@ -55,11 +72,13 @@ class _RemoveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.85),
+      color: Colors.white.withValues(alpha: 0.9),
       shape: const CircleBorder(),
+      elevation: 2,
+      shadowColor: Colors.black.withValues(alpha: 0.15),
       child: IconButton(
         onPressed: onTap,
-        icon: const Icon(Icons.favorite, color: Colors.red, size: 20),
+        icon: const Icon(Icons.favorite_rounded, color: AppColors.error, size: 20),
         tooltip: 'Remove from favourites',
         visualDensity: VisualDensity.compact,
       ),

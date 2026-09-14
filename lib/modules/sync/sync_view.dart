@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../app/theme/app_theme.dart';
 import 'sync_controller.dart';
 
 /// Non-dismissible per requirements.md §2 — no back navigation, no way to
@@ -15,7 +16,7 @@ class SyncView extends GetView<SyncController> {
       child: Scaffold(
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(28),
             child: Center(
               child: Obx(() {
                 if (controller.errorMessage.value != null) {
@@ -28,21 +29,51 @@ class SyncView extends GetView<SyncController> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    Container(
+                      width: 72,
+                      height: 72,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.cloud_sync_rounded,
+                        color: AppColors.primary,
+                        size: 34,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
                     const Text(
                       'Setting up your data',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 6),
+                    const Text(
+                      'This only happens once — please stay on this screen.',
+                      style: TextStyle(color: AppColors.textSecondary),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 32),
-                    _StepRow(
-                      label: 'Downloading Categories...',
-                      completed: controller.categoriesCompleted.value,
-                    ),
-                    const SizedBox(height: 20),
-                    _StepRow(
-                      label: 'Downloading Products...',
-                      completed: controller.productsCompleted.value,
-                      percent: controller.productsPercent.value,
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            _StepRow(
+                              label: 'Downloading Categories...',
+                              completed: controller.categoriesCompleted.value,
+                            ),
+                            const Divider(height: 32),
+                            _StepRow(
+                              label: 'Downloading Products...',
+                              completed: controller.productsCompleted.value,
+                              percent: controller.productsPercent.value,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 );
@@ -65,28 +96,43 @@ class _StepRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
           width: 24,
           height: 24,
           child: completed
-              ? const Icon(Icons.check_circle, color: Colors.green)
-              : const CircularProgressIndicator(strokeWidth: 2),
+              ? const Icon(Icons.check_circle_rounded, color: AppColors.success)
+              : const CircularProgressIndicator(strokeWidth: 2.5),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 14),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label),
+              Text(label, style: Theme.of(context).textTheme.titleSmall),
+              const SizedBox(height: 6),
               if (!completed && percent != null) ...[
-                const SizedBox(height: 4),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: LinearProgressIndicator(
+                    value: percent!.clamp(0, 100) / 100,
+                    minHeight: 6,
+                  ),
+                ),
+                const SizedBox(height: 6),
                 Text(
                   '${percent!.clamp(0, 100).toStringAsFixed(0)}% Please wait...',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ] else if (completed)
-                Text('Completed', style: Theme.of(context).textTheme.bodySmall),
+                Text(
+                  'Completed',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppColors.success,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
             ],
           ),
         ),
@@ -106,10 +152,23 @@ class _ErrorState extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(Icons.cloud_off, size: 48, color: Theme.of(context).colorScheme.error),
-        const SizedBox(height: 16),
-        Text(message, textAlign: TextAlign.center),
-        const SizedBox(height: 16),
+        Container(
+          width: 72,
+          height: 72,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: AppColors.error.withValues(alpha: 0.1),
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(Icons.cloud_off_rounded, size: 34, color: AppColors.error),
+        ),
+        const SizedBox(height: 20),
+        Text(
+          message,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+        const SizedBox(height: 20),
         FilledButton(onPressed: onRetry, child: const Text('Retry')),
       ],
     );
