@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../app/routes/app_routes.dart';
 import '../../data/local/database.dart';
 import 'categories_controller.dart';
 
@@ -10,7 +11,21 @@ class CategoriesView extends GetView<CategoriesController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Categories')),
+      appBar: AppBar(
+        title: const Text('Categories'),
+        actions: [
+          IconButton(
+            onPressed: () => Get.toNamed(Routes.favourites),
+            icon: const Icon(Icons.favorite_border),
+            tooltip: 'Favourites',
+          ),
+          IconButton(
+            onPressed: () => Get.toNamed(Routes.cart),
+            icon: const Icon(Icons.shopping_cart_outlined),
+            tooltip: 'Cart',
+          ),
+        ],
+      ),
       body: Obx(() {
         final categories = controller.categories;
         if (categories.isEmpty) {

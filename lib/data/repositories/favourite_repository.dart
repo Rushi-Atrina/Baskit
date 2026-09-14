@@ -12,4 +12,6 @@ class FavouriteRepository {
       _db.favouriteDao.watchIsFavourite(productId);
 
   Future<void> toggle(int productId) => _db.favouriteDao.toggle(productId);
+
+  Future<void> remove(int productId) => _db.favouriteDao.remove(productId);
 }
