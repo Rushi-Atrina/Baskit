@@ -5,21 +5,29 @@ import 'package:get/get.dart';
 import '../../app/routes/app_routes.dart';
 import '../../data/local/database.dart';
 import '../../data/repositories/category_repository.dart';
+import '../../data/repositories/product_repository.dart';
 import '../products/category_arg.dart';
 
 /// requirements.md §5 — reads exclusively from Drift.
 class CategoriesController extends GetxController {
-  CategoriesController(this._categoryRepository);
+  CategoriesController(this._categoryRepository, this._productRepository);
 
   final CategoryRepository _categoryRepository;
+  final ProductRepository _productRepository;
 
   final categories = <Category>[].obs;
-  StreamSubscription<List<Category>>? _subscription;
+  final categoryThumbnails = <String, String>{}.obs;
+  StreamSubscription<List<Category>>? _categoriesSubscription;
+  StreamSubscription<Map<String, String>>? _thumbnailsSubscription;
 
   @override
   void onInit() {
     super.onInit();
-    _subscription = _categoryRepository.watchAll().listen(categories.assignAll);
+    _categoriesSubscription =
+        _categoryRepository.watchAll().listen(categories.assignAll);
+    _thumbnailsSubscription = _productRepository
+        .watchThumbnailByCategory()
+        .listen(categoryThumbnails.assignAll);
   }
 
   void openProducts(Category category) {
@@ -31,7 +39,8 @@ class CategoriesController extends GetxController {
 
   @override
   void onClose() {
-    _subscription?.cancel();
+    _categoriesSubscription?.cancel();
+    _thumbnailsSubscription?.cancel();
     super.onClose();
   }
 }

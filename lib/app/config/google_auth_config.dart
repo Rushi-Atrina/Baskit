@@ -21,5 +21,6 @@ class GoogleAuthConfig {
       '316041812030-d2gqo8j0d4u3fcp562e90ovvorgcofed.apps.googleusercontent.com';
 
   /// The "iOS" OAuth client's ID. Required for iOS.
-  static const String? iosClientId = null;
+  static const String? iosClientId =
+      '316041812030-ornq1vmj902mq3m5d8j4anmcii89gp72.apps.googleusercontent.com';
 }

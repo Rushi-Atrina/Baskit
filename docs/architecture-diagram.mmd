@@ -1,0 +1,34 @@
+flowchart TD
+    subgraph REMOTE["Remote"]
+        API["dummyjson.com REST API<br/>/products/categories, /products?limit=200"]
+    end
+
+    subgraph DATA["Data Layer"]
+        API_CLIENT["ApiClient (Dio)"]
+        REPO["Repositories<br/>Auth · Sync · Category · Product · Favourite · Cart"]
+        DB[("Drift Database (SQLite)<br/>Users · Categories · Products · Cart · Favourites · SyncMeta")]
+    end
+
+    subgraph STATE["Presentation Layer (GetX)"]
+        CTRL["Controllers<br/>reactive .obs state"]
+        BIND["Bindings (DI per route)"]
+    end
+
+    subgraph UI["UI Layer"]
+        VIEWS["Views / Widgets<br/>Splash → Auth → Sync → Dashboard → Categories → Products → Product Details → Favourites/Cart"]
+    end
+
+    API -->|"HTTP GET (sync / refresh only)"| API_CLIENT
+    API_CLIENT --> REPO
+    REPO -->|"insert / update"| DB
+    DB -->|"watch...() Stream"| CTRL
+    CTRL <-->|"DI"| BIND
+    CTRL -->|"Obx / GetBuilder"| VIEWS
+    VIEWS -->|"user actions: refresh, add to cart, favourite, logout"| CTRL
+    CTRL -->|"writes (favourite/cart/refresh)"| REPO
+
+    style API fill:#4A90D9,color:#fff
+    style DB fill:#E8A33D,color:#fff
+    style REPO fill:#5CB85C,color:#fff
+    style CTRL fill:#9B59B6,color:#fff
+    style VIEWS fill:#E74C3C,color:#fff

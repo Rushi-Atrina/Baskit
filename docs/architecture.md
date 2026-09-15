@@ -203,4 +203,4 @@ flowchart TD
     E -->|write| C
 ```
 
-> Submission requires an **Architecture Diagram** image — export the diagram above (e.g. via a Mermaid renderer) to `docs/architecture-diagram.png` before final submission.
+Exported for submission as [docs/architecture-diagram.png](./architecture-diagram.png) (rendered via `@mermaid-js/mermaid-cli` from `docs/architecture-diagram.mmd`, kept alongside for future edits).

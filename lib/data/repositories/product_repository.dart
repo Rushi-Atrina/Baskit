@@ -17,4 +17,17 @@ class ProductRepository {
   Stream<Product?> watchById(int id) => _db.productDao.watchById(id);
 
   Future<int> count() => _db.productDao.count();
+
+  /// One representative thumbnail per category slug (the first product
+  /// found for that category), for the Categories screen cards. Derived
+  /// from the already-synced Products table — no extra API call.
+  Stream<Map<String, String>> watchThumbnailByCategory() {
+    return _db.productDao.watchAll().map((products) {
+      final map = <String, String>{};
+      for (final product in products) {
+        map.putIfAbsent(product.category, () => product.thumbnail);
+      }
+      return map;
+    });
+  }
 }
