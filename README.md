@@ -73,18 +73,24 @@ flutter build apk --release   # → build/app/outputs/flutter-apk/app-release.ap
 flutter build ipa --release   # → build/ios/ipa/baskit.ipa
 ```
 
-Copies for submission are in `release/` (gitignored, not pushed):
-- `release/baskit-release.apk`
-- `release/baskit-release.ipa` — signed for **App Store** distribution (automatic signing, team `8W9WP349VS`). It is not an ad-hoc/development build, so it won't sideload directly onto a device — it's meant to be uploaded via Transporter/TestFlight, or re-exported ad-hoc if direct install is needed.
+Copies for submission are in `release/` (gitignored, not pushed) and shared via Drive: **[baskit-release.apk / baskit-release.ipa](https://drive.google.com/drive/folders/1A2gs0XGslEbkFzOKiApB995XXAF4dRIh?usp=drive_link)**.
+
+The IPA is signed for **App Store** distribution (automatic signing, team `8W9WP349VS`) — not an ad-hoc/development build, so it won't sideload directly onto a device; it's meant to be uploaded via Transporter/TestFlight, or re-exported ad-hoc if direct install is needed.
 
 ## Screenshots
 
-_Pending — to be added to `docs/screenshots/`._
+| | | |
+|---|---|---|
+| <img src="docs/screenshots/1-splash.jpeg" width="220"><br>Splash | <img src="docs/screenshots/2-auth.jpeg" width="220"><br>Google Login | <img src="docs/screenshots/3-accounts-blurred.png" width="220"><br>Account Picker |
+| <img src="docs/screenshots/4-loading.jpeg" width="220"><br>Initial Sync | <img src="docs/screenshots/5-dashboard.jpeg" width="220"><br>Dashboard | <img src="docs/screenshots/6-categories.jpeg" width="220"><br>Categories |
+| <img src="docs/screenshots/7-product-list.jpeg" width="220"><br>Products (search/sort) | <img src="docs/screenshots/8-product-details.jpeg" width="220"><br>Product Details | <img src="docs/screenshots/9-cart.jpeg" width="220"><br>Cart |
+| <img src="docs/screenshots/10-favs.jpeg" width="220"><br>Favourites | <img src="docs/screenshots/11-empty-cart.jpeg" width="220"><br>Empty Cart | <img src="docs/screenshots/12-empty-fav.jpeg" width="220"><br>Empty Favourites |
+| <img src="docs/screenshots/13-empty-search.jpeg" width="220"><br>Empty Search Result | | |
 
 ## Submission Checklist
 
 - [x] GitHub Repository
 - [x] APK File and IPA File — `release/`
 - [x] README.md — this file
-- [ ] Screenshots — `docs/screenshots/`
+- [x] Screenshots — `docs/screenshots/`
 - [x] Architecture Diagram — `docs/architecture-diagram.png`
