@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 
 import '../../app/theme/app_theme.dart';
 import '../../data/local/daos/cart_dao.dart';
+import '../../shared/widgets/glass_app_bar.dart';
+import '../../shared/widgets/glass_container.dart';
 import 'cart_controller.dart';
 
 class CartView extends GetView<CartController> {
@@ -12,7 +14,7 @@ class CartView extends GetView<CartController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Cart')),
+      appBar: const GlassAppBar(title: Text('Cart')),
       body: Obx(() {
         if (controller.lines.isEmpty) {
           return Center(
@@ -43,19 +45,17 @@ class CartView extends GetView<CartController> {
       bottomNavigationBar: Obx(() {
         if (controller.lines.isEmpty) return const SizedBox.shrink();
         return SafeArea(
-          child: Container(
+          child: GlassContainer(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+            opacity: 0.55,
             padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              border: const Border(top: BorderSide(color: AppColors.outline)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04),
-                  blurRadius: 12,
-                  offset: const Offset(0, -4),
-                ),
-              ],
-            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.06),
+                blurRadius: 16,
+                offset: const Offset(0, -4),
+              ),
+            ],
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -93,7 +93,7 @@ class _CartLineTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<CartController>();
     final product = line.product;
-    return Card(
+    return GlassContainer(
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Row(

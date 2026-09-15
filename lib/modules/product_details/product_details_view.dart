@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 
 import '../../app/theme/app_theme.dart';
 import '../../data/local/database.dart';
+import '../../shared/widgets/glass_app_bar.dart';
+import '../../shared/widgets/glass_container.dart';
 import 'product_details_controller.dart';
 
 class ProductDetailsView extends GetView<ProductDetailsController> {
@@ -12,7 +14,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: GlassAppBar(
         title: Obx(() => Text(controller.product.value?.title ?? '')),
         actions: [
           Obx(
@@ -132,19 +134,17 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
         final product = controller.product.value;
         if (product == null) return const SizedBox.shrink();
         return SafeArea(
-          child: Container(
+          child: GlassContainer(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+            opacity: 0.55,
             padding: const EdgeInsets.fromLTRB(20, 14, 20, 14),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              border: const Border(top: BorderSide(color: AppColors.outline)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04),
-                  blurRadius: 12,
-                  offset: const Offset(0, -4),
-                ),
-              ],
-            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.06),
+                blurRadius: 16,
+                offset: const Offset(0, -4),
+              ),
+            ],
             child: controller.cartQuantity.value > 0
                 ? _CartStepper(controller: controller, product: product)
                 : FilledButton.icon(

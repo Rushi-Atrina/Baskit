@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../app/theme/app_theme.dart';
+import '../../shared/widgets/glass_container.dart';
 import 'auth_controller.dart';
 
 class AuthView extends GetView<AuthController> {
@@ -17,24 +18,24 @@ class AuthView extends GetView<AuthController> {
             child: DecoratedBox(
               decoration: const BoxDecoration(gradient: AppColors.heroGradient),
               child: Center(
-                child: Container(
-                  width: 108,
-                  height: 108,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.18),
-                        blurRadius: 28,
-                        offset: const Offset(0, 14),
-                      ),
-                    ],
-                  ),
-                  child: const Icon(
-                    Icons.shopping_basket_rounded,
-                    size: 58,
-                    color: AppColors.primary,
+                child: GlassContainer(
+                  borderRadius: const BorderRadius.all(Radius.circular(30)),
+                  opacity: 0.6,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.18),
+                      blurRadius: 28,
+                      offset: const Offset(0, 14),
+                    ),
+                  ],
+                  child: const SizedBox(
+                    width: 108,
+                    height: 108,
+                    child: Icon(
+                      Icons.shopping_basket_rounded,
+                      size: 58,
+                      color: AppColors.primary,
+                    ),
                   ),
                 ),
               ),

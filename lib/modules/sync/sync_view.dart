@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../app/theme/app_theme.dart';
+import '../../shared/widgets/glass_container.dart';
 import 'sync_controller.dart';
 
 /// Non-dismissible per requirements.md §2 — no back navigation, no way to
@@ -56,7 +57,7 @@ class SyncView extends GetView<SyncController> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 32),
-                    Card(
+                    GlassContainer(
                       child: Padding(
                         padding: const EdgeInsets.all(20),
                         child: Column(

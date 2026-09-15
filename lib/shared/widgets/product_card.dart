@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/theme/app_theme.dart';
 import '../../data/local/database.dart';
+import 'glass_container.dart';
 
 /// requirements.md §6 display fields: image, name, brand, category, price,
 /// rating, discount %, stock. Reused by Products and Favourites screens.
@@ -36,111 +37,118 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final inStock = product.stock > 0;
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Stack(
-              children: [
-                AspectRatio(
-                  aspectRatio: 1,
-                  child: ColoredBox(
-                    color: AppColors.background,
-                    child: CachedNetworkImage(
-                      imageUrl: product.thumbnail,
-                      fit: BoxFit.contain,
-                      placeholder: (_, __) => const SizedBox.shrink(),
-                      errorWidget: (_, __, ___) =>
-                          const Icon(Icons.image_not_supported_outlined),
-                    ),
-                  ),
-                ),
-                if (product.discountPercentage > 0)
-                  Positioned(
-                    top: 8,
-                    left: 8,
-                    child: _Badge(
-                      text: '-${product.discountPercentage.toStringAsFixed(0)}%',
-                      color: AppColors.success,
-                    ),
-                  ),
-                if (onToggleFavourite != null)
-                  Positioned(
-                    top: 6,
-                    right: 6,
-                    child: _FavouriteButton(
-                      isFavourite: isFavourite,
-                      onTap: onToggleFavourite!,
-                    ),
-                  ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return GlassContainer(
+      padding: EdgeInsets.zero,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Stack(
                 children: [
-                  if (product.brand != null)
+                  AspectRatio(
+                    aspectRatio: 1,
+                    child: ColoredBox(
+                      color: AppColors.background,
+                      child: CachedNetworkImage(
+                        imageUrl: product.thumbnail,
+                        fit: BoxFit.contain,
+                        placeholder: (_, __) => const SizedBox.shrink(),
+                        errorWidget: (_, __, ___) =>
+                            const Icon(Icons.image_not_supported_outlined),
+                      ),
+                    ),
+                  ),
+                  if (product.discountPercentage > 0)
+                    Positioned(
+                      top: 8,
+                      left: 8,
+                      child: _Badge(
+                        text: '-${product.discountPercentage.toStringAsFixed(0)}%',
+                        color: AppColors.success,
+                      ),
+                    ),
+                  if (onToggleFavourite != null)
+                    Positioned(
+                      top: 6,
+                      right: 6,
+                      child: _FavouriteButton(
+                        isFavourite: isFavourite,
+                        onTap: onToggleFavourite!,
+                      ),
+                    ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (product.brand != null)
+                      Text(
+                        product.brand!.toUpperCase(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          letterSpacing: 0.4,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    const SizedBox(height: 2),
                     Text(
-                      product.brand!.toUpperCase(),
+                      product.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleSmall,
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        Text(
+                          '\$${product.price.toStringAsFixed(2)}',
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        const Spacer(),
+                        const Icon(Icons.star_rounded, size: 16, color: AppColors.amber),
+                        const SizedBox(width: 2),
+                        Text(
+                          product.rating.toStringAsFixed(1),
+                          style: theme.textTheme.bodySmall,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      inStock ? 'In stock: ${product.stock}' : 'Out of stock',
                       style: theme.textTheme.bodySmall?.copyWith(
-                        letterSpacing: 0.4,
+                        color: inStock ? AppColors.textSecondary : AppColors.error,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                  const SizedBox(height: 2),
-                  Text(
-                    product.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.titleSmall,
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    children: [
-                      Text(
-                        '\$${product.price.toStringAsFixed(2)}',
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                      const Spacer(),
-                      const Icon(Icons.star_rounded, size: 16, color: AppColors.amber),
-                      const SizedBox(width: 2),
-                      Text(product.rating.toStringAsFixed(1), style: theme.textTheme.bodySmall),
+                    if (onIncrement != null) ...[
+                      const SizedBox(height: 8),
+                      cartQuantity > 0
+                          ? _QuantityStepper(
+                              quantity: cartQuantity,
+                              onIncrement: inStock ? onIncrement : null,
+                              onDecrement: onDecrement,
+                            )
+                          : _AddToCartButton(
+                              enabled: inStock,
+                              onTap: onIncrement,
+                            ),
                     ],
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    inStock ? 'In stock: ${product.stock}' : 'Out of stock',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: inStock ? AppColors.textSecondary : AppColors.error,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  if (onIncrement != null) ...[
-                    const SizedBox(height: 8),
-                    cartQuantity > 0
-                        ? _QuantityStepper(
-                            quantity: cartQuantity,
-                            onIncrement: inStock ? onIncrement : null,
-                            onDecrement: onDecrement,
-                          )
-                        : _AddToCartButton(
-                            enabled: inStock,
-                            onTap: onIncrement,
-                          ),
                   ],
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

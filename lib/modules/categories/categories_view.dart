@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import '../../app/routes/app_routes.dart';
 import '../../app/theme/app_theme.dart';
 import '../../data/local/database.dart';
+import '../../shared/widgets/glass_app_bar.dart';
+import '../../shared/widgets/glass_container.dart';
 import 'categories_controller.dart';
 
 class CategoriesView extends GetView<CategoriesController> {
@@ -13,7 +15,7 @@ class CategoriesView extends GetView<CategoriesController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: GlassAppBar(
         title: const Text('Categories'),
         actions: [
           IconButton(
@@ -84,47 +86,51 @@ class _CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(14),
+    return GlassContainer(
+      padding: EdgeInsets.zero,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(20),
+          child: Padding(
+            padding: const EdgeInsets.all(14),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 44,
+                  height: 44,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: color.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: thumbnail != null
+                      ? Padding(
+                          padding: const EdgeInsets.all(6),
+                          child: CachedNetworkImage(
+                            imageUrl: thumbnail!,
+                            fit: BoxFit.contain,
+                            placeholder: (_, __) =>
+                                Icon(Icons.category_rounded, size: 22, color: color),
+                            errorWidget: (_, __, ___) =>
+                                Icon(Icons.category_rounded, size: 22, color: color),
+                          ),
+                        )
+                      : Icon(Icons.category_rounded, size: 22, color: color),
                 ),
-                clipBehavior: Clip.antiAlias,
-                child: thumbnail != null
-                    ? Padding(
-                        padding: const EdgeInsets.all(6),
-                        child: CachedNetworkImage(
-                          imageUrl: thumbnail!,
-                          fit: BoxFit.contain,
-                          placeholder: (_, __) =>
-                              Icon(Icons.category_rounded, size: 22, color: color),
-                          errorWidget: (_, __, ___) =>
-                              Icon(Icons.category_rounded, size: 22, color: color),
-                        ),
-                      )
-                    : Icon(Icons.category_rounded, size: 22, color: color),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                category.name,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-            ],
+                const SizedBox(height: 10),
+                Text(
+                  category.name,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ],
+            ),
           ),
         ),
       ),

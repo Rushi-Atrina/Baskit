@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../app/theme/app_theme.dart';
+import '../../shared/widgets/glass_container.dart';
 import 'splash_controller.dart';
 
 class SplashView extends GetView<SplashController> {
@@ -16,24 +17,24 @@ class SplashView extends GetView<SplashController> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                width: 96,
-                height: 96,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(28),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.15),
-                      blurRadius: 24,
-                      offset: const Offset(0, 12),
-                    ),
-                  ],
-                ),
-                child: const Icon(
-                  Icons.shopping_basket_rounded,
-                  size: 52,
-                  color: AppColors.primary,
+              GlassContainer(
+                borderRadius: const BorderRadius.all(Radius.circular(28)),
+                opacity: 0.6,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.15),
+                    blurRadius: 24,
+                    offset: const Offset(0, 12),
+                  ),
+                ],
+                child: const SizedBox(
+                  width: 96,
+                  height: 96,
+                  child: Icon(
+                    Icons.shopping_basket_rounded,
+                    size: 52,
+                    color: AppColors.primary,
+                  ),
                 ),
               ),
               const SizedBox(height: 20),

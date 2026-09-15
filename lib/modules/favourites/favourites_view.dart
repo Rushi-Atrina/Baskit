@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../app/theme/app_theme.dart';
+import '../../shared/widgets/glass_app_bar.dart';
 import '../../shared/widgets/product_card.dart';
 import 'favourites_controller.dart';
 
@@ -11,7 +12,7 @@ class FavouritesView extends GetView<FavouritesController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Favourites')),
+      appBar: const GlassAppBar(title: Text('Favourites')),
       body: Obx(() {
         final products = controller.products;
         if (products.isEmpty) {

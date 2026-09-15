@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 
 import '../../app/theme/app_theme.dart';
 import '../../shared/utils/date_formatter.dart';
+import '../../shared/widgets/glass_app_bar.dart';
+import '../../shared/widgets/glass_container.dart';
 import 'dashboard_controller.dart';
 
 class DashboardView extends GetView<DashboardController> {
@@ -40,7 +42,7 @@ class DashboardView extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard')),
+      appBar: const GlassAppBar(title: Text('Dashboard')),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
@@ -124,7 +126,7 @@ class DashboardView extends GetView<DashboardController> {
             const SizedBox(height: 12),
             Obx(() {
               final lastSync = controller.lastSyncAt.value;
-              return Card(
+              return GlassContainer(
                 child: ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   leading: Container(
@@ -185,7 +187,7 @@ class _StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return GlassContainer(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         child: Column(
